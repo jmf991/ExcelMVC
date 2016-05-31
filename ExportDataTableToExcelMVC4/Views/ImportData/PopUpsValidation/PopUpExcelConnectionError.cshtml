@@ -2,9 +2,17 @@
 
 <!--scripts de PopUps-->
 <script>
-        $(document).ready(function () {
+    $(document).ready(function () {
+        toastr.options = {
+            "closeButton": true,
+            "onclick": null,
+            "showDuration": "0",
+            "hideDuration": "0",
+            "timeOut": "0",
+            "showMethod": "fadeIn"
+        };
             // show when page load          
-            toastr.info('Soluciones:<br/><br/>' +
+        toastr.info('Soluciones: (Conexión)<br/><br/>' +
                 '1.Seleccione un excel cuyas columnas sean:<br/>' +
                 ' "CodigoCliente",<br/>' +
                 ' "Importe",<br/>' +

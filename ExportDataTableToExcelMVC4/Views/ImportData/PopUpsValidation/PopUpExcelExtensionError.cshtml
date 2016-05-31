@@ -2,7 +2,15 @@
 
 <!--scripts de PopUps-->
 <script>
-        $(document).ready(function () {
+    $(document).ready(function () {
+        toastr.options = {
+            "closeButton": true,
+            "onclick": null,
+            "showDuration": "0",
+            "hideDuration": "0",
+            "timeOut": "0",
+            "showMethod": "fadeIn"
+        };
             // show when page load          
             toastr.info('Solucion: Introduzca un archivo cuya extension sea .xls o .xlsx, y vuelva a intentarlo');
             toastr.error('Error: (Archivo) El archivo introducido no es un Excel.');            

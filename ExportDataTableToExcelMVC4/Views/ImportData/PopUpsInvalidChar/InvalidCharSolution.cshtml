@@ -2,8 +2,15 @@
 
 <!--scripts de PopUps-->
 <script>
-        $(document).ready(function () {
-            // show when page load
+    $(document).ready(function () {
+        toastr.options = {
+            "closeButton": true,
+            "onclick": null,
+            "showDuration": "0",
+            "hideDuration": "0",
+            "timeOut": "0",
+            "showMethod": "fadeIn"
+        };
             toastr.info('Solución: (Caracteres Invalidos) revise las celdas señaladas y elimine los caracteres inválidos');
         });
 </script>

@@ -27,14 +27,7 @@ namespace ExportDataTableToExcelMVC4.Controllers
         public string TipoIva { get; set; }
         public double CodigoMarca { get; set; }
     }
-    //static class DataRowExtensions
-    //{
-    //    public static object GetValue(this DataRow row, string column)
-    //    {
-    //        return row.Table.Columns.Contains(column) ? row[column] : null;
-    //    }
-    //}
-  
+
     public class ImportDataController : Controller
     {
         public ActionResult Import()
@@ -76,9 +69,8 @@ namespace ExportDataTableToExcelMVC4.Controllers
             //Comando SQL
             OleDbCommand cmd = new OleDbCommand("Select [CodigoCliente],[Importe],[Concepto],[TipoIva],[CodigoMarca]" +
                 " from [Facturas$]", excelConnection);
-
-            //INICIO CHECKERS
-            //CHECKER CodigoCliente en DB: Se crea una lista con los "codigoCliente" disponibles en la DB
+                        
+            //CHECKER CODIGOCLIENTE DB-EXCEL: Se crea una lista con los "codigoCliente" disponibles en la DB
             using (SqlConnection conexionDB = new SqlConnection(sqlConnectionString))
             {
                 SqlCommand getCodigoClienteDB = new SqlCommand("Select * from FacturasRecord", conexionDB);
@@ -123,13 +115,11 @@ namespace ExportDataTableToExcelMVC4.Controllers
                         ImportarModelObj.Validated = false;
                         return View("ImportPopUps", ImportarModelObj);
                     }
-
-                    //CHECKER FORMATO CELDAS
+                    //INICIO CHECKERS CELDAS
                     OleDbDataAdapter da = new OleDbDataAdapter(cmd);//no se abre conexion xq el datAdapter incluye el "cmd" 
-                    DataSet ds = new DataSet(); //Se crea dataset               
+                    DataSet ds = new DataSet(); //Se crea dataset              
                     ds.Tables.Add("xlsImport");//Se añaden tablas a ds
-                    da.Fill(ds, "xlsImport");//Se añaden datos a ds con comando cmd del dataAdapter                    
-
+                    da.Fill(ds, "xlsImport");//Se añaden datos a ds con comando cmd del dataAdapter                  
                     //Se crean columnas en la tabla xlsImport
                     ds.Tables["xlsImport"].Columns[0].ColumnName = "CodigoCliente";
                     ds.Tables["xlsImport"].Columns[1].ColumnName = "Importe";
@@ -151,135 +141,125 @@ namespace ExportDataTableToExcelMVC4.Controllers
                                 });
 
                     foreach (DataRow row in ds.Tables["xlsImport"].Rows)
-                    {
+                    {   
+                        //CHEKER CARACTERES INVALIDOS
                         int index = ds.Tables["xlsImport"].Rows.IndexOf(row) + 2;//Se instancia el indice
                         object valueCodigoCliente = row["CodigoCliente"]; //Se instancian las celdas de las columnas seleccionadas
                         object valueImporte = row["Importe"];
                         object valueConcepto = row["Concepto"];
                         object valueTipoIva = row["TipoIva"];
                         object valueCodigoMarca = row["CodigoMarca"];
-
-                        //CHEKER CODIGOCLIENTE DB-EXCEL
-                        ListItem valueCodigoClienteStr = new ListItem(Convert.ToString(valueCodigoCliente));
-                        if (!codigoClienteDBList.Contains(valueCodigoClienteStr))//Si no esta el valor en la DB:
-                        {
-                            errorCodigoClienteCheckList.Add(valueCodigoClienteStr);//lista con el valueCodigoCliente erroneo 
-                            errorCodigoClienteCheckListIndex.Add(index);//lista con el index del valueCodigoCliente erroneo
-                        }
-
-                        //Se convierte el valor de la celda en string para quitar los carcateres invalidos
+                        //Se convierte el valor de la celda en string 
                         string valueCodigoClienteString = Convert.ToString(valueCodigoCliente);
                         string valueImporteString = Convert.ToString(valueImporte);
                         string valueConceptoString = Convert.ToString(valueConcepto);
                         string valueTipoIvaString = Convert.ToString(valueTipoIva);
                         string valueCodigoMarcaString = Convert.ToString(valueCodigoMarca);
                         //Se crean strings vacias para rellenarlas con la string sin invalidChars,y así compararlas con las string de origen
-                        string valueCodigoClienteStringClean = ""; 
+                        string valueCodigoClienteStringClean = "";
                         string valueImporteStringClean = "";
                         string valueConceptoStringClean = "";
                         string valueTipoIvaStringClean = "";
                         string valueCodigoMarcaStringClean = "";
-
                         //Se replazan los caracteres invalidos 
                         valueCodigoClienteStringClean = Regex.Replace(valueCodigoClienteString, "([^0-9a-nA-No-zO-ZçÇñÑáéíóúäëïöü_ ])", "").Trim();
                         valueImporteStringClean = Regex.Replace(valueImporteString, "([^0-9a-nA-No-zO-ZçÇñÑáéíóúäëïöü_ ])", "").Trim();
                         valueConceptoStringClean = Regex.Replace(valueConceptoString, "([^0-9a-nA-No-zO-ZçÇñÑáéíóúäëïöü_ ])", "").Trim();
                         valueTipoIvaStringClean = Regex.Replace(valueTipoIvaString, "([^0-9a-nA-No-zO-ZçÇñÑáéíóúäëïöü_ ])", "").Trim();
                         valueCodigoMarcaStringClean = Regex.Replace(valueCodigoMarcaString, "([^0-9a-nA-No-zO-ZçÇñÑáéíóúäëïöü_ ])", "").Trim();
-
                         //Si el valor anterior a la eliminacion de caracteres invalidos es el mismo que despues, no hay caracteres invalidos.
-                        if (valueCodigoClienteString != valueCodigoClienteStringClean) { invalidCharCodigoClienteList.Add(index); }//CodigoCliente
-                        if (valueImporteString != valueImporteStringClean) { invalidCharImporteList.Add(index); }//Importe
-                        if (valueConceptoString != valueConceptoStringClean) { invalidCharConceptoList.Add(index); } //Concepto 
-                        if (valueTipoIvaString != valueTipoIvaStringClean) { invalidCharTipoIvaList.Add(index); } //TipoIva
-                        if (valueCodigoMarcaString != valueCodigoMarcaStringClean) { invalidCharCodigoMarcaList.Add(index); }//Importe
-                                                                      
-                        //FIN CHEKER CODIGOCLIENTE DB-EXCEL
-
-                        //Si la celda esta en formato incorrecto saldrá null en la tabla "xlsImport"
+                        if (valueCodigoClienteString != valueCodigoClienteStringClean) { invalidCharCodigoClienteList.Add(index); } 
+                        if (valueImporteString != valueImporteStringClean) { invalidCharImporteList.Add(index); }                   
+                        if (valueConceptoString != valueConceptoStringClean) { invalidCharConceptoList.Add(index); }                
+                        if (valueTipoIvaString != valueTipoIvaStringClean) { invalidCharTipoIvaList.Add(index); }                   
+                        if (valueCodigoMarcaString != valueCodigoMarcaStringClean) { invalidCharCodigoMarcaList.Add(index); }            
+                       
+                        //CHEKER CODIGOCLIENTE DB-EXCEL
+                        ListItem valueCodigoClienteStr = new ListItem(Convert.ToString(valueCodigoCliente));
+                        if (!codigoClienteDBList.Contains(valueCodigoClienteStr))//Si no esta el valor en la DB:
+                        {
+                            errorCodigoClienteCheckList.Add(valueCodigoClienteStr);//lista con el valueCodigoCliente erroneo 
+                            errorCodigoClienteCheckListIndex.Add(index);//lista con el index del valueCodigoCliente erroneo
+                        }        
+                                                      
+                        //CHEKER FORMATO CELDAS: Si la celda esta en formato incorrecto saldrá null en la tabla "xlsImport"
                         //Si es null: añade el indice de la celda a su lista de errores  
-                        if (valueCodigoCliente == DBNull.Value) { errorCodigoClienteList.Add(index); }  //CodigoCliente                       
-                        if (valueImporte == DBNull.Value) { errorImporteList.Add(index); }              //Importe                        
-                        if (valueConcepto == DBNull.Value) { errorConceptoList.Add(index); }            //Concepto                       
-                        if (valueTipoIva == DBNull.Value) { errorTipoIvaList.Add(index); }              //TipoIva                       
-                        if (valueCodigoMarca == DBNull.Value) { errorCodigoMarcaList.Add(index); }      //Importe
-                        //FIN CHEKER FORMATO CELDAS
-                    }
+                        if (valueCodigoCliente == DBNull.Value) { errorCodigoClienteList.Add(index); }                 
+                        if (valueImporte == DBNull.Value) { errorImporteList.Add(index); }                              
+                        if (valueConcepto == DBNull.Value) { errorConceptoList.Add(index); }                                 
+                        if (valueTipoIva == DBNull.Value) { errorTipoIvaList.Add(index); }                                     
+                        if (valueCodigoMarca == DBNull.Value) { errorCodigoMarcaList.Add(index); }                          
+                    } 
 
-                    //Almacenamiento de listas de successErrors en ViewBag para utilizarse en las Views
+                    //Almacenamiento de listas de Validate en ViewBag para utilizarse en las Views
+                    ViewBag.errorCodigoClienteCheckList = errorCodigoClienteCheckList;              //List-validate-CodigoClienteCheck
+                    ViewBag.errorCodigoClienteCheckListIndex = errorCodigoClienteCheckListIndex;    //List-validate-CodigoClienteCheckIndex 
+                    //Almacenamiento de listas de successErrors 
                     ViewBag.errorCodigoClienteList = errorCodigoClienteList;                        //List-error-CodigoCliente
                     ViewBag.errorConceptoList = errorConceptoList;                                  //List-error-Concepto
                     ViewBag.errorCodigoMarcaList = errorCodigoMarcaList;                            //List-error-CodigoMarca
                     ViewBag.errorTipoIvaList = errorTipoIvaList;                                    //List-error-TipoIva
-                    ViewBag.errorImporteList = errorImporteList;                                    //List-error-Importe
-                    ViewBag.errorCodigoClienteCheckList = errorCodigoClienteCheckList;              //List-error-CodigoClienteCheck
-                    ViewBag.errorCodigoClienteCheckListIndex = errorCodigoClienteCheckListIndex;    //List-error-CodigoClienteCheckIndex          
+                    ViewBag.errorImporteList = errorImporteList;                                    //List-error-Importe                             
                     //Almacenamiento de listas de invalidChar
-                    ViewBag.invalidCharCodigoClienteList = invalidCharCodigoClienteList;    //List-invalidChar-CodigoCliente
-                    ViewBag.invalidCharCodigoClienteList = invalidCharImporteList;          //List-invalidChar-Importe
-                    ViewBag.invalidCharConceptoList = invalidCharConceptoList;              //List-invalidChar-Concepto
-                    ViewBag.invalidCharCodigoMarcaList = invalidCharCodigoMarcaList;        //List-invalidChar-CodigoMarca
-                    ViewBag.invalidCharTipoIvaList = invalidCharTipoIvaList;                //List-invalidChar-TipoIva                    
+                    ViewBag.invalidCharCodigoClienteList = invalidCharCodigoClienteList;            //List-invalidChar-CodigoCliente
+                    ViewBag.invalidCharCodigoClienteList = invalidCharImporteList;                  //List-invalidChar-Importe
+                    ViewBag.invalidCharConceptoList = invalidCharConceptoList;                      //List-invalidChar-Concepto
+                    ViewBag.invalidCharCodigoMarcaList = invalidCharCodigoMarcaList;                //List-invalidChar-CodigoMarca
+                    ViewBag.invalidCharTipoIvaList = invalidCharTipoIvaList;                        //List-invalidChar-TipoIva                    
 
                     //ASIGNACION VALORES PARCIALES
                     //CodigoClienteCheck
-                    if (errorCodigoClienteCheckListIndex.Any())
-                    { ImportarModelObj.SuccesCodigoClienteCheck = false; }                   //Validation-CodigoClienteCheck
-                    else { ImportarModelObj.SuccesCodigoClienteCheck = true; }
-
+                    if (errorCodigoClienteCheckListIndex.Any()) { ImportarModelObj.SuccesCodigoClienteCheck = false; }
+                    else { ImportarModelObj.SuccesCodigoClienteCheck = true; }                              //validate-CodigoClienteCheck
                     //Success: Si las columnas NO tienen su lista de errores vacia: Success=False
                     if (errorCodigoClienteList.Any()) { ImportarModelObj.SuccessCodigoCliente = false; }
-                    else { ImportarModelObj.SuccessCodigoCliente = true; }                          //Success-CodigoCliente
+                    else { ImportarModelObj.SuccessCodigoCliente = true; }                                  //Success-CodigoCliente
                     if (errorImporteList.Any()) { ImportarModelObj.SuccessImporte = false; }
-                    else { ImportarModelObj.SuccessImporte = true; }                                //Success-Importe
+                    else { ImportarModelObj.SuccessImporte = true; }                                        //Success-Importe
                     if (errorCodigoMarcaList.Any()) { ImportarModelObj.SuccessCodigoMarca = false; }
-                    else { ImportarModelObj.SuccessCodigoMarca = true; }                            //Success-CodigoMarca
+                    else { ImportarModelObj.SuccessCodigoMarca = true; }                                    //Success-CodigoMarca
                     if (errorTipoIvaList.Any()) { ImportarModelObj.SuccessTipoIva = false; }
-                    else { ImportarModelObj.SuccessTipoIva = true; }                                //Success-TipoIva
+                    else { ImportarModelObj.SuccessTipoIva = true; }                                        //Success-TipoIva
                     if (errorConceptoList.Any()) { ImportarModelObj.SuccessConcepto = false; }
-                    else { ImportarModelObj.SuccessConcepto = true; }                               //Success-Concepto                  
-
+                    else { ImportarModelObj.SuccessConcepto = true; }                                       //Success-Concepto                
                     //InvalidChar: Si las columnas NO tienen su lista de invalidChar vacia: invalidChar=True
                     if (invalidCharCodigoClienteList.Any()) { ImportarModelObj.CodigoClienteInvalidChar = true; }
-                    else { ImportarModelObj.CodigoClienteInvalidChar = false; }                          //invalidChar-CodigoCliente
+                    else { ImportarModelObj.CodigoClienteInvalidChar = false; }                             //invalidChar-CodigoCliente
                     if (invalidCharImporteList.Any()) { ImportarModelObj.ImporteInvalidChar = true; }
-                    else { ImportarModelObj.CodigoClienteInvalidChar = false; }                          //invalidChar-Importe
+                    else { ImportarModelObj.ImporteInvalidChar = false; }                             //invalidChar-Importe
                     if (invalidCharConceptoList.Any()) { ImportarModelObj.ConceptoInvalidChar = true; }
-                    else { ImportarModelObj.CodigoClienteInvalidChar = false; }                          //invalidChar-Concepto
+                    else { ImportarModelObj.ConceptoInvalidChar = false; }                             //invalidChar-Concepto
                     if (invalidCharCodigoMarcaList.Any()) { ImportarModelObj.CodigoMarcaInvalidChar = true; }
-                    else { ImportarModelObj.CodigoClienteInvalidChar = false; }                          //invalidChar-CodigoMarca
+                    else { ImportarModelObj.CodigoMarcaInvalidChar = false; }                             //invalidChar-CodigoMarca
                     if (invalidCharTipoIvaList.Any()) { ImportarModelObj.TipoIvaInvalidChar = true; }
-                    else { ImportarModelObj.CodigoClienteInvalidChar = false; }                          //invalidChar-TipoIva
+                    else { ImportarModelObj.TipoIvaInvalidChar = false; }                             //invalidChar-TipoIva
 
                     //ASIGNACION DE VALORES GLOBALES
-                    //Validated: Si CodigoCliente presentes en DB + Conexion y Extension correctas
+                    //VALIDATED: Si CodigoCliente presentes en DB + Conexion y Extension correctas
                     if (ImportarModelObj.SuccesCodigoClienteCheck && ImportarModelObj.ExcelExtension &&
                         ImportarModelObj.ExcelConnection)
-                    { ImportarModelObj.Validated = true; }
-                    else { ImportarModelObj.Validated = false; }                    //VALIDATED
-
-                    //InavalidCharGlobal: Si TODAS las columnas tienen invalidChar=False: InvalidCharGlobal=false
-                    if (!ImportarModelObj.CodigoClienteInvalidChar                  //invalidChar-CodigoCliente
-                      && !ImportarModelObj.ImporteInvalidChar                       //invalidChar-Importe
-                      && !ImportarModelObj.ConceptoInvalidChar                      //invalidChar-Concepto
-                      && !ImportarModelObj.CodigoMarcaInvalidChar                   //invalidChar-CodigoMarca
-                      && !ImportarModelObj.TipoIvaInvalidChar)                      //invalidChar-TipoIva                        
-                    { ImportarModelObj.InvalidCharGlobal = false; }
-                    else { ImportarModelObj.InvalidCharGlobal = true; }             //INVALIDCHARGLOBAL
-
-                    //SuccessGlobal: Si TODAS las columnas tienen success=True: SuccessGlobal=True
-                    if (ImportarModelObj.SuccessCodigoCliente                  //error-CodigoCliente       
-                        && ImportarModelObj.SuccessImporte                     //error-Importe 
-                        && ImportarModelObj.SuccessCodigoMarca                 //error-CodigoMarca
-                        && ImportarModelObj.SuccessTipoIva                     //error-TipoIva
-                        && ImportarModelObj.SuccessConcepto)                   //error-Concepto                      
-                    { ImportarModelObj.SuccessGlobal = true; }
-                    else { ImportarModelObj.SuccessGlobal = false; }            //SUCCESGLOBAL
-
+                    { ImportarModelObj.Validated = true; }                          
+                    else { ImportarModelObj.Validated = false; }
+                    //INVALIDCHARGLOBAL: Si TODAS las columnas tienen invalidChar=False: InvalidCharGlobal=false
+                    if (!ImportarModelObj.CodigoClienteInvalidChar
+                      && !ImportarModelObj.ImporteInvalidChar
+                      && !ImportarModelObj.ConceptoInvalidChar
+                      && !ImportarModelObj.CodigoMarcaInvalidChar                   
+                      && !ImportarModelObj.TipoIvaInvalidChar)
+                    { ImportarModelObj.InvalidCharGlobal = false; }                 
+                    else { ImportarModelObj.InvalidCharGlobal = true; }
+                    //SUCCESGLOBAL: Si TODAS las columnas tienen success=True: SuccessGlobal=True
+                    if (ImportarModelObj.SuccessCodigoCliente
+                        && ImportarModelObj.SuccessImporte
+                        && ImportarModelObj.SuccessCodigoMarca
+                        && ImportarModelObj.SuccessTipoIva                          
+                        && ImportarModelObj.SuccessConcepto)
+                    { ImportarModelObj.SuccessGlobal = true; }                      
+                    else { ImportarModelObj.SuccessGlobal = false; }
                     //IMPORTABLE: si Validated=True + InvalidCharGlobal=False + SuccessGlobal=True :: Importable=True.
                     if (ImportarModelObj.Validated && !ImportarModelObj.InvalidCharGlobal && ImportarModelObj.SuccessGlobal)
                     { ImportarModelObj.Importable = true; }
-                    else { ImportarModelObj.Importable = false; }
+                    else { ImportarModelObj.Importable = false; }                   
 
                     //IMPORTAR DATOS DE EXCEL A DB (Si Importable=True)
                     if (ImportarModelObj.Importable == true)
@@ -295,7 +275,7 @@ namespace ExportDataTableToExcelMVC4.Controllers
                     //Tras asignar valor a todas las variables se muestran los PopUps Correspondientes
                     return View("ImportPopUps", ImportarModelObj);
                 }
-                catch //Si algun error no permite la ejecucion del try, SuccessGlobal=false
+                catch //Si algun error no permite la ejecucion del try, Importable=false
                 {
                     excelConnection.Close();
                     ImportarModelObj.Importable = false;

@@ -270,3 +270,4 @@ E:\source\Projects\C# projects\ExcelMVC\ImportExportExcelMVC\ExportDataTableToEx
 E:\source\Projects\C# projects\ExcelMVC\ImportExportExcelMVC\ExportDataTableToExcelMVC4\obj\Debug\ImportExportExcelMVC.csproj.ResolveComReference.cache
 E:\source\Projects\C# projects\ExcelMVC\ImportExportExcelMVC\ExportDataTableToExcelMVC4\obj\Debug\ExportDataTableToExcelMVC4.dll
 E:\source\Projects\C# projects\ExcelMVC\ImportExportExcelMVC\ExportDataTableToExcelMVC4\obj\Debug\ExportDataTableToExcelMVC4.pdb
+E:\source\Projects\C# projects\ExcelMVC\ImportExportExcelMVC\ExportDataTableToExcelMVC4\obj\Debug\ImportExportExcelMVC.csprojResolveAssemblyReference.cache

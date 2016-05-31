@@ -2,8 +2,15 @@
 
 <!--scripts de PopUps-->
 <script>
-        $(document).ready(function () {
-            // show when page load
+    $(document).ready(function () {
+        toastr.options = {
+            "closeButton": true,
+            "onclick": null,
+            "showDuration": "0",
+            "hideDuration": "0",
+            "timeOut": "0",
+            "showMethod": "fadeIn"
+        };
             toastr.error('Error: (Caracteres Invalidos) una celda de la columna Concepto tiene algun caracter inválido');
         });
 </script>
