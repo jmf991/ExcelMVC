@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "ImportPopUps";
+}
+<!--Titulo-->
+<p style="background-color: grey; color: white; font-size: 20pt; font-weight: bold; padding: 10px; text-align: center;">
+    Importar Excel a la Base de Datos
+</p>
+<!--Seleccion de excel-->
+@using (Html.BeginForm("Importexcel", "ImportData", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table>
+        <tr><td></td><td><input type="file" id="FileUpload1" name="FileUpload1" /></td></tr>
+        <tr><td></td><td><input type="submit" id="Submit" name="Submit" value="Submit" /></td></tr>
+    </table>
+     <!--PopUp de SuccessGlobal=True-->
+    if (Model.Importable)
+    {
+        @Html.Partial("~/Views/ImportData/PopUpsGlobal/PopUpImported.cshtml", (object)Model)return;
+    }
+}
+
+<div class="col-md-12">
+    <!--/ Seleccion de excel-->
+    @if (!Model.Importable)
+    {        <h4>ERRORES</h4>
+        if (!Model.Validated)
+        {
+            if (!Model.ExcelExtension && !Model.ExcelConnection)
+            {//Si es extension erronea tendrá tambien conexion erronea, por lo q no tiene sentido mostrar ambos errores.
+                @Html.Partial("~/Views/ImportData/PopUpsValidation/PopUpExcelExtensionError.cshtml", (object)Model)
+                @Html.Partial("~/Views/ImportData/PopUpsGlobal/PopUpGlobalError.cshtml", (object)Model)return;//Se corta el flujo ya que el resto de valores dará null
+            }
+            if (Model.ExcelExtension && !Model.ExcelConnection)
+            {
+                @Html.Partial("~/Views/ImportData/PopUpsValidation/PopUpExcelConnectionError.cshtml", (object)Model)
+                @Html.Partial("~/Views/ImportData/PopUpsGlobal/PopUpGlobalError.cshtml", (object)Model)return;//Se corta el flujo ya que el resto de valores dará null
+            }
+    <!--PopUp de Checker CodigoClienteDB-EXCEL=False-->
+            if (!Model.SuccesCodigoClienteCheck)//CodigoClienteCheck Valor
+            {
+                @Html.Partial("~/Views/ImportData/PopUpsValidation/PopUpCodigoClienteCheckError.cshtml", (object)Model)
+                if (!Model.SuccesCodigoClienteCheck)//CodigoClienteCheck Indice
+                {@Html.Partial("~/Views/ImportData/PopUpsValidation/PopUpCodigoClienteCheckIndexError.cshtml", (object)Model)}
+            }
+        }
+        <!--PopUps de error de Success y muestra de detalles del error-->
+
+    <!--PopUps de InvalidChar=True-->
+        if (Model.InvalidCharGlobal)
+        {
+            @Html.Partial("~/Views/ImportData/PopUpsInvalidChar/InvalidCharSolution.cshtml", (object)Model)
+            if (Model.CodigoClienteInvalidChar)//CodigoCliente
+            {@Html.Partial("~/Views/ImportData/PopUpsInvalidChar/InvalidCharCodigoCliente.cshtml", (object)Model);
+            }
+            if (Model.ImporteInvalidChar)//Importe
+            { @Html.Partial("~/Views/ImportData/PopUpsInvalidChar/InvalidCharImporte.cshtml", (object)Model);
+            }
+            if (Model.ConceptoInvalidChar)//Concepto
+            { @Html.Partial("~/Views/ImportData/PopUpsInvalidChar/InvalidCharConcepto.cshtml", (object)Model);
+            }
+            if (Model.CodigoMarcaInvalidChar)//CodigoMarca
+            { @Html.Partial("~/Views/ImportData/PopUpsInvalidChar/InvalidCharCodigoMarca.cshtml", (object)Model);
+            }
+            if (Model.TipoIvaInvalidChar)//TipoIva
+            { @Html.Partial("~/Views/ImportData/PopUpsInvalidChar/InvalidCharTipoIva.cshtml", (object)Model);
+            }
+        }
+    <!--PopUp de SuccessGlobal=False-->
+        if (!Model.SuccessGlobal)
+        {  <!--PopUps de Success=False-->
+            @Html.Partial("~/Views/ImportData/PopUpsSuccess/PopUpSuccessErrorSolution.cshtml", (object)Model)
+            if (!Model.SuccessCodigoCliente)//CodigoCliente
+            {@Html.Partial("~/Views/ImportData/PopUpsSuccess/PopUpCodigoClienteError.cshtml", (object)Model)}
+            if (!Model.SuccessImporte)//Importe
+            {@Html.Partial("~/Views/ImportData/PopUpsSuccess/PopUpImporteError.cshtml", (object)Model)}
+            if (!Model.SuccessCodigoMarca)//CodigoMarca
+            {@Html.Partial("~/Views/ImportData/PopUpsSuccess/PopUpCodigoMarcaError.cshtml", (object)Model)}
+            if (!Model.SuccessConcepto)//Concepto
+            {@Html.Partial("~/Views/ImportData/PopUpsSuccess/PopUpConceptoError.cshtml", (object)Model)}
+            if (!Model.SuccessTipoIva)//TipoIva
+            {@Html.Partial("~/Views/ImportData/PopUpsSuccess/PopUpTipoIvaError.cshtml", (object)Model)}
+        }
+        @Html.Partial("~/Views/ImportData/PopUpsGlobal/PopUpGlobalError.cshtml", (object)Model)
+
+
+    }
+    <div class="clearfix"></div>
+</div>
+
+

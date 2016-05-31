@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "ImportPopUps";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    @Scripts.Render("~/bundles/modernizr")
+
+    <!--script AsyncPartials-->
+    <!--scripts de PopUps-->
+    <script>
+        $(document).ready(function () {
+            // show when page load
+            toastr.error('Error: un valor de la columna CodigoCliente no esta en formato correcto');
+        });
+    </script>
+    <!--END scripts de los PopUps-->
+</head>
+<body>
+    <p style="background-color: grey; color: white; font-size: 20pt; font-weight: bold; padding: 10px; text-align: center;">
+        Importar Excel a la Base de Datos
+    </p>
+
+    @using (Html.BeginForm("Importexcel", "ImportData", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <table>
+            <tr><td></td><td><input type="file" id="FileUpload1" name="FileUpload1" /></td></tr>
+            <tr><td></td><td><input type="submit" id="Submit" name="Submit" value="Submit" /></td></tr>
+        </table>
+    }
+
+    <div class="popUpMessages">
+        <!--partialContents. We use this in jQuery to locate them-->
+        <!--data-url for the location of the partialview controller action-->
+        <div class="partialContents" data-url="~/Views/ImportData/ImportPopUps.cshtml">
+               @if (Model.Success)
+               {
+                @:toastr.success("@Model.Message");
+            }
+               else if (!Model.Success && !String.IsNullOrWhiteSpace(Model.Message))
+               {
+                @:toastr.error("@Model.Message");
+            }
+            </div>
+       <div class="popUps" data-url="/Controllers/ImportDataController/ImportPopUps">
+        <img src="~/assets/img/ajax-loader.gif" />loading.... <!--message and image to show an AJAX indicator that we are working on that area.-->
+        </div>
+    </div>
+</body>
+</html>

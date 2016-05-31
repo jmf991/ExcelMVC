@@ -1,0 +1,17 @@
+﻿@model ExportDataTableToExcelInMVC4.Models.ImportarModel
+
+<!--scripts de PopUps-->
+<script>
+        $(document).ready(function () {
+            // show when page load
+            toastr.error('Error: un valor de la columna CodigoMarca no esta en formato correcto');
+        });
+</script>
+<!--END scripts de los PopUps-->
+<p>CodigoMarca:</p>
+@foreach (var index in ViewBag.errorCodigoMarcaList)
+{
+    <ul>
+        <li>@index</li>
+    </ul>
+}

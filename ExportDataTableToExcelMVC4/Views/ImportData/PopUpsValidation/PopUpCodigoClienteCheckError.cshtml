@@ -1,0 +1,19 @@
+﻿@model ExportDataTableToExcelInMVC4.Models.ImportarModel
+
+<!--scripts de PopUps-->
+<script>
+        $(document).ready(function () {
+            toastr.info('Solución: (Base de Datos)<br/><br/>1. Introduzca el codigo de cliente en la base de datos,<br/>' +
+                '2. o elimínelo del excel para importar el resto de registros');
+            toastr.error('Error: (Base de Datos) Hay algun codigo de cliente que no está presente en la base de datos');            
+        });
+</script>
+<!--END scripts de los PopUps-->
+<p>·Valores de <u>CodigoCliente</u> <b>no presente en la Base de Datos</b>:</p>
+<p>(Los espacios vacíos son celdas en formato incorrecto o vacías)</p>
+@foreach (var index in ViewBag.errorCodigoClienteCheckList)
+{
+    <ul>
+        <li>@index</li>
+    </ul>
+}

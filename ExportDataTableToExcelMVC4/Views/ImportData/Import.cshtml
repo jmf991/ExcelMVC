@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Importar";
+}
+<script>
+        $(document).ready(function () {
+            // show when page load
+            toastr.info('Selecciona un excel para añadirlo a la base de Datos');
+        });
+</script>
+<p style="background-color: grey; color: white; font-size: 20pt; font-weight: bold; padding: 10px; text-align: center;">
+    Importar Excel a la Base de Datos
+</p>
+
+@using (Html.BeginForm("Importexcel", "ImportData", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table>
+        <tr><td></td><td><input type="file" id="FileUpload1" name="FileUpload1" /></td></tr>
+        <tr><td></td><td><input type="submit" id="Submit" name="Importar" value="Submit" /></td></tr>
+    </table>
+}
+
+<div class="popUpMessages">
+
+    <!--partialContents. We use this in jQuery to locate them-->
+    <!--data-url for the location of the partialview controller action-->
+    <div class="partialContents" data-url="/Controllers/ImportDataController/Importexcel">
+       <p>Seleccione un archivo excel y pulse Importar.</p>
+    </div>   
+</div>
+

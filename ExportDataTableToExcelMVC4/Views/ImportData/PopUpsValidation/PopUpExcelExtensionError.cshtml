@@ -1,0 +1,13 @@
+﻿@model ExportDataTableToExcelInMVC4.Models.ImportarModel
+
+<!--scripts de PopUps-->
+<script>
+        $(document).ready(function () {
+            // show when page load          
+            toastr.info('Solucion: Introduzca un archivo cuya extension sea .xls o .xlsx, y vuelva a intentarlo');
+            toastr.error('Error: (Archivo) El archivo introducido no es un Excel.');            
+        });
+</script>
+<!--END scripts de los PopUps-->
+<p>><u>El archivo introducido</u> <b>no es un Excel</b>.</p>
+

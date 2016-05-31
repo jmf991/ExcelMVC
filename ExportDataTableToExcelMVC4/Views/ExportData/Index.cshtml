@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ExportDataTableToExcelInMVC4.Models.ExportDataTableToExcelModel>
+
+@{
+    ViewBag.Title = "Exportar";
+}
+
+@using (Html.BeginForm("ExportData", "ExportData", FormMethod.Post))
+{
+
+    <p style="background-color: grey; color: white; font-size: 20pt; font-weight: bold; padding: 10px; text-align: center;">
+        Exportar DataTable a Excel 
+    </p>
+    <table style="background-color: white; width: 100%;">
+        <tr>
+            <th style="border: 2px solid black; text-align: left; width: 20%; padding-left: 20px;">
+                @Html.DisplayNameFor(model => model.CodigoCliente)
+            </th>
+            <th style="border: 2px solid black; text-align: center; width: 20%">
+                @Html.DisplayNameFor(model => model.Importe)
+            </th>
+            <th style="border: 2px solid black; text-align: center; width: 20%">
+                @Html.DisplayNameFor(model => model.Concepto)
+            </th>
+            <th style="border: 2px solid black; text-align: center; width: 20%">
+                @Html.DisplayNameFor(model => model.TipoIva)
+            </th>
+            <th style="border: 2px solid black; text-align: center; width: 20%">
+                @Html.DisplayNameFor(model => model.CodigoMarca)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="padding-left: 20px;">
+                    @Html.DisplayFor(modelItem => item.CodigoCliente)
+                </td>
+                <td style="padding-left: 20px;">
+                    @Html.DisplayFor(modelItem => item.Importe)
+                </td>
+                <td style="padding-left: 20px;">
+                    @Html.DisplayFor(modelItem => item.Concepto)
+                </td>
+                <td style="padding-left: 20px;">
+                    @Html.DisplayFor(modelItem => item.TipoIva)
+                </td>
+                <td style="padding-left: 50px;">
+                    @Html.DisplayFor(modelItem => item.CodigoMarca)
+                </td>
+            </tr>
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td>
+                <input type="submit" name="btnExportLicensing" style="width: 140px;"
+                       value="Export" id="exportLicensing" class="button" />
+            </td>
+        </tr>
+    </table>
+}
+
+
+

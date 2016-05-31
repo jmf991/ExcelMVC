@@ -1,0 +1,19 @@
+﻿<div class="jumbotron">
+    <h1>ExportaTuExcel! WebApp</h1>
+    <p class="lead">Esta Aplicación Web te permite exportar archivos excel a Base de Datos, e Importar desde la Base de Datos a excel.</p>   
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h2>Exporta</h2>
+        <p>Por defecto la base de datos es "excelMvcDB", y la Tabla será "Facturas".</p>
+        <p>Para cambiar la DefaultConnection vaya a "Web.config" y para elegir la tabla a "ExportDataController".</p>
+        <p> @Html.ActionLink("Exportar", "Index", "ExportData", new { area = "" }, null)&raquo;</p>
+    </div>
+    <div class="col-md-6">
+        <h2>Importa</h2>
+        <p>Por defecto se guardarán los datos del Excel en la base de datos "excelMvcDB", en la tabla "FacturasReport".</p>
+        <p>Para cambiar la conexión vaya a "ImportDataController".</p>
+        <p>El archivo excel debe tener extension .xls o .xlsx, y debe contener las columnas: CodigoCliente, Importe, Concepto, TipoIva y CodigoMarca.</p>
+        <p>@Html.ActionLink("Importar", "Import", "ImportData", new { area = "" }, null)&raquo;</p>
+    </div>   
+</div>

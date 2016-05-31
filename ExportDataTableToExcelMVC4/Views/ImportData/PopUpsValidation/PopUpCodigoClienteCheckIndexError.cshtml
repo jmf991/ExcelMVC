@@ -1,0 +1,10 @@
+﻿@model ExportDataTableToExcelInMVC4.Models.ImportarModel
+
+
+<p>·Indice del <u>CodigoCliente</u> <b>no presente en la base de datos</b>:</p>
+@foreach (var index in ViewBag.errorCodigoClienteCheckListIndex)
+{
+    <ul>
+        <li>@index</li>
+    </ul>
+}

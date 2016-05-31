@@ -1,0 +1,25 @@
+﻿@model ExportDataTableToExcelInMVC4.Models.ImportarModel
+
+<!--scripts de PopUps-->
+<script>
+        $(document).ready(function () {
+            // show when page load          
+            toastr.info('Soluciones:<br/><br/>' +
+                '1.Seleccione un excel cuyas columnas sean:<br/>' +
+                ' "CodigoCliente",<br/>' +
+                ' "Importe",<br/>' +
+                ' "Concepto",<br/>' +
+                ' "TipoIva" y<br/>' +
+                ' "CodigoMarca",<br/><br/>' +
+                '2.Cambie el nombre de la página del archivo Excel a "Facturas",<br/><br/>');
+            toastr.error('Error: (Conexión) <br/>Posibles errores:<br/><br/>' +
+                ' 1.El archivo introducido no tiene las columnas necesarias,<br/><br/>' +
+                ' 2. Los nombres de las columnas son incorrectos,<br/><br/>' +
+                ' 3.El nombre de la página de excel no es "Facturas".');
+        });
+</script>
+<!--END scripts de los PopUps-->
+<p>><u>El archivo introducido:</u><br /><br />
+    <b>no tiene</b> las <b>columnas necesarias</b>,<br />
+     o los <b>nombres de las columnas</b> son <b>incorrectos</b>,<br /> 
+     o el <b>nombre de la página</b> de excel no es <b>"Facturas"</b>.</p>

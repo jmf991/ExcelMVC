@@ -1,0 +1,17 @@
+﻿@model ExportDataTableToExcelInMVC4.Models.ImportarModel
+
+<!--scripts de PopUps-->
+<script>
+        $(document).ready(function () {
+            // show when page load
+            toastr.error('Error: (Formato) un valor de la columna Concepto no esta en formato correcto o esta vacío');
+        });
+</script>
+<!--END scripts de los PopUps-->
+<p>>Indice de la celda en <b>formato incorrecto</b> o vacío de la columna <u>Concepto</u>:</p>
+@foreach (var index in ViewBag.errorConceptoList)
+{
+    <ul>
+        <li>@index</li>
+    </ul>
+}

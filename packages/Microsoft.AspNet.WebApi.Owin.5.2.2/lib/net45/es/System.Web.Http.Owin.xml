@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>System.Web.Http.Owin</name>
+  </assembly>
+  <members>
+    <member name="T:System.Net.Http.OwinHttpRequestMessageExtensions">
+      <summary>Proporciona métodos de extensión para la clase <see cref="T:System.Net.Http.HttpRequestMessage" />.</summary>
+    </member>
+    <member name="M:System.Net.Http.OwinHttpRequestMessageExtensions.GetOwinContext(System.Net.Http.HttpRequestMessage)">
+      <summary>Obtiene el contexto OWIN de la solicitud especificada.</summary>
+      <returns>El entorno OWIN para el contexto especificado, si está disponible; de lo contrario <see cref="null" />.</returns>
+      <param name="request">Mensaje de solicitud HTTP.</param>
+    </member>
+    <member name="M:System.Net.Http.OwinHttpRequestMessageExtensions.GetOwinEnvironment(System.Net.Http.HttpRequestMessage)">
+      <summary>Obtiene el entorno OWIN de la solicitud especificada.</summary>
+      <returns>El entorno OWIN para la solicitud especificada, si está disponible; de lo contrario <see cref="null" />.</returns>
+      <param name="request">Mensaje de solicitud HTTP.</param>
+    </member>
+    <member name="M:System.Net.Http.OwinHttpRequestMessageExtensions.SetOwinContext(System.Net.Http.HttpRequestMessage,Microsoft.Owin.IOwinContext)">
+      <summary>Establece el contexto OWIN de la solicitud especificada.</summary>
+      <param name="request">Mensaje de solicitud HTTP.</param>
+      <param name="context">El contexto OWIN que se debe establecer.</param>
+    </member>
+    <member name="M:System.Net.Http.OwinHttpRequestMessageExtensions.SetOwinEnvironment(System.Net.Http.HttpRequestMessage,System.Collections.Generic.IDictionary{System.String,System.Object})">
+      <summary>Establece el entorno OWIN de la solicitud especificada.</summary>
+      <param name="request">Mensaje de solicitud HTTP.</param>
+      <param name="environment">El entorno OWIN que se debe establecer.</param>
+    </member>
+    <member name="T:System.Web.Http.HostAuthenticationAttribute">
+      <summary>Representa un atributo de autenticación que se autentica a través de middleware de OWIN.</summary>
+    </member>
+    <member name="M:System.Web.Http.HostAuthenticationAttribute.#ctor(System.String)">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Web.Http.HostAuthenticationAttribute" />.</summary>
+      <param name="authenticationType">El tipo de autenticación del middleware de OWIN que se debe usar.</param>
+    </member>
+    <member name="P:System.Web.Http.HostAuthenticationAttribute.AllowMultiple"></member>
+    <member name="M:System.Web.Http.HostAuthenticationAttribute.AuthenticateAsync(System.Web.Http.Filters.HttpAuthenticationContext,System.Threading.CancellationToken)"></member>
+    <member name="P:System.Web.Http.HostAuthenticationAttribute.AuthenticationType">
+      <summary>Obtiene tipo de autenticación del middleware de OWIN que se debe usar.</summary>
+    </member>
+    <member name="M:System.Web.Http.HostAuthenticationAttribute.ChallengeAsync(System.Web.Http.Filters.HttpAuthenticationChallengeContext,System.Threading.CancellationToken)"></member>
+    <member name="T:System.Web.Http.HostAuthenticationFilter">
+      <summary>Representa un filtro de autenticación que se autentica a través de middleware de OWIN.</summary>
+    </member>
+    <member name="M:System.Web.Http.HostAuthenticationFilter.#ctor(System.String)">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Web.Http.HostAuthenticationFilter" />.</summary>
+      <param name="authenticationType">El tipo de autenticación del middleware de OWIN que se debe usar.</param>
+    </member>
+    <member name="P:System.Web.Http.HostAuthenticationFilter.AllowMultiple">
+      <summary>Obtiene un valor que indica si el filtro permite la autenticación múltiple.</summary>
+      <returns>true si el filtro permite la autenticación múltiple; de lo contrario false.</returns>
+    </member>
+    <member name="M:System.Web.Http.HostAuthenticationFilter.AuthenticateAsync(System.Web.Http.Filters.HttpAuthenticationContext,System.Threading.CancellationToken)">
+      <summary>Autentica de manera asincrónica la solicitud.</summary>
+      <returns>Tarea que completa la autenticación.</returns>
+      <param name="context">El contexto de autenticación.</param>
+      <param name="cancellationToken">Token de cancelación.</param>
+    </member>
+    <member name="P:System.Web.Http.HostAuthenticationFilter.AuthenticationType">
+      <summary>Obtiene tipo de autenticación del middleware de OWIN que se debe usar.</summary>
+      <returns>El tipo de autenticación del middleware de OWIN que se debe usar.</returns>
+    </member>
+    <member name="M:System.Web.Http.HostAuthenticationFilter.ChallengeAsync(System.Web.Http.Filters.HttpAuthenticationChallengeContext,System.Threading.CancellationToken)">
+      <summary>Desafía de manera asincrónica una autenticación.</summary>
+      <returns>La tarea que completa el desafío.</returns>
+      <param name="context">Contexto.</param>
+      <param name="cancellationToken">Token de cancelación.</param>
+    </member>
+    <member name="T:System.Web.Http.OwinHttpConfigurationExtensions">
+      <summary>Proporciona métodos de extensión para la clase <see cref="T:System.Web.Http.HttpConfiguration" />.</summary>
+    </member>
+    <member name="M:System.Web.Http.OwinHttpConfigurationExtensions.SuppressDefaultHostAuthentication(System.Web.Http.HttpConfiguration)">
+      <summary>Habilita la supresión de la autenticación predeterminada del host.</summary>
+      <param name="configuration">La configuración del servidor.</param>
+    </member>
+    <member name="T:System.Web.Http.Owin.HttpMessageHandlerAdapter">
+      <summary>Representa un componente OWIN que envía solicitudes a un elemento <see cref="T:System.Net.Http.HttpMessageHandler" /> cuando se invoca.</summary>
+    </member>
+    <member name="M:System.Web.Http.Owin.HttpMessageHandlerAdapter.#ctor(Microsoft.Owin.OwinMiddleware,System.Net.Http.HttpMessageHandler,System.Web.Http.Hosting.IHostBufferPolicySelector)">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Web.Http.Owin.HttpMessageHandlerAdapter" />.</summary>
+      <param name="next">El siguiente componente de la canalización.</param>
+      <param name="messageHandler">El elemento <see cref="T:System.Net.Http.HttpMessageHandler" /> al que se van a enviar las solicitudes.</param>
+      <param name="bufferPolicySelector">El elemento <see cref="T:System.Web.Http.Hosting.IHostBufferPolicySelector" /> que determina si las solicitudes y respuestas se deben almacenar en búfer.</param>
+    </member>
+    <member name="M:System.Web.Http.Owin.HttpMessageHandlerAdapter.#ctor(Microsoft.Owin.OwinMiddleware,System.Web.Http.Owin.HttpMessageHandlerOptions)">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Web.Http.Owin.HttpMessageHandlerAdapter" />.</summary>
+      <param name="next">El siguiente componente de la canalización.</param>
+      <param name="options">Opciones para configurar este adaptador.</param>
+    </member>
+    <member name="P:System.Web.Http.Owin.HttpMessageHandlerAdapter.AppDisposing">
+      <summary>Obtiene el token de cancelación que desencadena la limpieza de este componente.</summary>
+      <returns>Token de cancelación.</returns>
+    </member>
+    <member name="P:System.Web.Http.Owin.HttpMessageHandlerAdapter.BufferPolicySelector">
+      <summary>Obtiene el elemento <see cref="T:System.Web.Http.Hosting.IHostBufferPolicySelector" /> que determina si las solicitudes y respuestas se deben almacenar en búfer.</summary>
+      <returns>El elemento <see cref="T:System.Web.Http.Hosting.IHostBufferPolicySelector" /> que determina si las solicitudes y respuestas se deben almacenar en búfer.</returns>
+    </member>
+    <member name="M:System.Web.Http.Owin.HttpMessageHandlerAdapter.Dispose">
+      <summary>Libera todos los recursos que usa la instancia actual de la clase <see cref="T:System.Web.Http.Owin.HttpMessageHandlerAdapter" />.</summary>
+    </member>
+    <member name="M:System.Web.Http.Owin.HttpMessageHandlerAdapter.Dispose(System.Boolean)">
+      <summary>Libera los recursos no administrados y, opcionalmente, los recursos administrados.</summary>
+      <param name="disposing">true para liberar tanto los recursos administrados como los no administrados; false para liberar únicamente los recursos no administrados.</param>
+    </member>
+    <member name="P:System.Web.Http.Owin.HttpMessageHandlerAdapter.ExceptionHandler">
+      <summary>Obtiene el elemento <see cref="T:System.Web.Http.ExceptionHandling.IExceptionHandler" /> que debe usarse para procesar excepciones no controladas.</summary>
+      <returns>Elemento <see cref="T:System.Web.Http.ExceptionHandling.IExceptionHandler" /> que debe usarse para procesar excepciones no controladas.</returns>
+    </member>
+    <member name="P:System.Web.Http.Owin.HttpMessageHandlerAdapter.ExceptionLogger">
+      <summary>Obtiene el elemento <see cref="T:System.Web.Http.ExceptionHandling.IExceptionLogger" /> que debe usarse para registrar excepciones no controladas.</summary>
+      <returns>Elemento <see cref="T:System.Web.Http.ExceptionHandling.IExceptionLogger" /> que debe usarse para registrar excepciones no controladas.</returns>
+    </member>
+    <member name="M:System.Web.Http.Owin.HttpMessageHandlerAdapter.Invoke(Microsoft.Owin.IOwinContext)">
+      <returns>Devuelve <see cref="T:System.Threading.Tasks.Task" />.</returns>
+    </member>
+    <member name="P:System.Web.Http.Owin.HttpMessageHandlerAdapter.MessageHandler">
+      <summary>Obtiene el elemento <see cref="T:System.Net.Http.HttpMessageHandler" /> al que se van a enviar las solicitudes.</summary>
+      <returns>El elemento <see cref="T:System.Net.Http.HttpMessageHandler" /> al que se van a enviar las solicitudes.</returns>
+    </member>
+    <member name="T:System.Web.Http.Owin.HttpMessageHandlerOptions">
+      <summary>Representa las opciones para configurar un <see cref="T:System.Web.Http.Owin.HttpMessageHandlerAdapter" />.</summary>
+    </member>
+    <member name="M:System.Web.Http.Owin.HttpMessageHandlerOptions.#ctor">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Web.Http.Owin.HttpMessageHandlerOptions" />.</summary>
+    </member>
+    <member name="P:System.Web.Http.Owin.HttpMessageHandlerOptions.AppDisposing">
+      <summary>Obtiene o establece el elemento <see cref="T:System.Threading.CancellationToken" /> que desencadena la limpieza del <see cref="T:System.Web.Http.Owin.HttpMessageHandlerAdapter" />.</summary>
+      <returns>Elemento <see cref="T:System.Threading.CancellationToken" /> que desencadena la limpieza del <see cref="T:System.Web.Http.Owin.HttpMessageHandlerAdapter" />.</returns>
+    </member>
+    <member name="P:System.Web.Http.Owin.HttpMessageHandlerOptions.BufferPolicySelector">
+      <summary>Obtiene o establece el elemento <see cref="T:System.Web.Http.Hosting.IHostBufferPolicySelector" /> que determina si las solicitudes y respuestas se deben almacenar en búfer.</summary>
+      <returns>El elemento <see cref="T:System.Web.Http.Hosting.IHostBufferPolicySelector" /> que determina si las solicitudes y respuestas se deben almacenar en búfer.</returns>
+    </member>
+    <member name="P:System.Web.Http.Owin.HttpMessageHandlerOptions.ExceptionHandler">
+      <summary>Obtiene o establece el elemento <see cref="T:System.Web.Http.ExceptionHandling.IExceptionHandler" /> que debe usarse para procesar excepciones no controladas.</summary>
+      <returns>Elemento <see cref="T:System.Web.Http.ExceptionHandling.IExceptionHandler" /> que debe usarse para procesar excepciones no controladas.</returns>
+    </member>
+    <member name="P:System.Web.Http.Owin.HttpMessageHandlerOptions.ExceptionLogger">
+      <summary>Obtiene o establece el elemento <see cref="T:System.Web.Http.ExceptionHandling.IExceptionLogger" /> que debe usarse para registrar excepciones no controladas.</summary>
+      <returns>Elemento <see cref="T:System.Web.Http.ExceptionHandling.IExceptionLogger" /> que debe usarse para registrar excepciones no controladas.</returns>
+    </member>
+    <member name="P:System.Web.Http.Owin.HttpMessageHandlerOptions.MessageHandler">
+      <summary>Obtiene o establece el elemento <see cref="T:System.Net.Http.HttpMessageHandler" /> al que se van a enviar las solicitudes.</summary>
+      <returns>El elemento <see cref="T:System.Net.Http.HttpMessageHandler" /> al que se van a enviar las solicitudes.</returns>
+    </member>
+    <member name="T:System.Web.Http.Owin.OwinBufferPolicySelector">
+      <summary>Proporciona la implementación predeterminada del elemento <see cref="T:System.Web.Http.Hosting.IHostBufferPolicySelector" /> que usa el adaptador Web API de OWIN.</summary>
+    </member>
+    <member name="M:System.Web.Http.Owin.OwinBufferPolicySelector.#ctor">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Web.Http.Owin.OwinBufferPolicySelector" />.</summary>
+    </member>
+    <member name="M:System.Web.Http.Owin.OwinBufferPolicySelector.UseBufferedInputStream(System.Object)">
+      <summary>Determina si el host debe almacenar en búfer el cuerpo de la entidad HttpRequestMessage.</summary>
+      <returns>true si debe usarse el almacenamiento en buffer; en caso contrario, debe usarse una solicitud transmitida.</returns>
+      <param name="hostContext">Contexto del host.</param>
+    </member>
+    <member name="M:System.Web.Http.Owin.OwinBufferPolicySelector.UseBufferedOutputStream(System.Net.Http.HttpResponseMessage)">
+      <summary>Determina si el host debe almacenar en búfer el cuerpo de la entidad HttpResponseMessage.</summary>
+      <returns>true si debe usarse el almacenamiento en buffer; en caso contrario, debe usarse una respuesta transmitida.</returns>
+      <param name="response">La respuesta.</param>
+    </member>
+    <member name="T:System.Web.Http.Owin.OwinExceptionCatchBlocks">
+      <summary>Proporciona los bloques catch que se usan en este ensamblado.</summary>
+    </member>
+    <member name="P:System.Web.Http.Owin.OwinExceptionCatchBlocks.HttpMessageHandlerAdapterBufferContent">
+      <summary>Obtiene el bloque catch de System.Web.Http.Owin.HttpMessageHandlerAdapter.BufferContent.</summary>
+      <returns>Bloque catch de System.Web.Http.Owin.HttpMessageHandlerAdapter.BufferContent.</returns>
+    </member>
+    <member name="P:System.Web.Http.Owin.OwinExceptionCatchBlocks.HttpMessageHandlerAdapterBufferError">
+      <summary>Obtiene el bloque catch de System.Web.Http.Owin.HttpMessageHandlerAdapter.BufferError.</summary>
+      <returns>Bloque catch de System.Web.Http.Owin.HttpMessageHandlerAdapter.BufferError.</returns>
+    </member>
+    <member name="P:System.Web.Http.Owin.OwinExceptionCatchBlocks.HttpMessageHandlerAdapterComputeContentLength">
+      <summary>Obtiene el bloque catch de System.Web.Http.Owin.HttpMessageHandlerAdapter.ComputeContentLength.</summary>
+      <returns>Bloque catch de System.Web.Http.Owin.HttpMessageHandlerAdapter.ComputeContentLength.</returns>
+    </member>
+    <member name="P:System.Web.Http.Owin.OwinExceptionCatchBlocks.HttpMessageHandlerAdapterStreamContent">
+      <summary>Obtiene el bloque catch de System.Web.Http.Owin.HttpMessageHandlerAdapter.StreamContent.</summary>
+      <returns>Bloque catch de System.Web.Http.Owin.HttpMessageHandlerAdapter.StreamContent.</returns>
+    </member>
+    <member name="T:System.Web.Http.Owin.PassiveAuthenticationMessageHandler">
+      <summary>Representa un controlador de mensajes que trata todo el middleware de autenticación OWIN como pasivo.</summary>
+    </member>
+    <member name="M:System.Web.Http.Owin.PassiveAuthenticationMessageHandler.#ctor">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Web.Http.Owin.PassiveAuthenticationMessageHandler" />.</summary>
+    </member>
+    <member name="M:System.Web.Http.Owin.PassiveAuthenticationMessageHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+      <summary>Envía de manera asincrónica una solicitud de mensaje.</summary>
+      <returns>La tarea que completa la operación asincrónica.</returns>
+      <param name="request">La solicitud de mensaje.</param>
+      <param name="cancellationToken">Token de cancelación.</param>
+    </member>
+  </members>
+</doc>

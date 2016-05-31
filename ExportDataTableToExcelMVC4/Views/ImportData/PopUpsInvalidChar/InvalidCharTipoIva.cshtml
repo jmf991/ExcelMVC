@@ -1,0 +1,19 @@
+﻿@model ExportDataTableToExcelInMVC4.Models.ImportarModel
+
+<!--scripts de PopUps-->
+<script>
+        $(document).ready(function () {
+            // show when page load
+            toastr.error('Error: (Caracteres Invalidos) una celda de la columna TipoIva tiene algun caracter inválido');
+        });
+</script>
+<!--END scripts de los PopUps-->
+<p>-Indice de la celda con <b>caracteres inválidos</b> de la columna <u>TipoIva</u>:</p>
+@foreach (var index in ViewBag.invalidCharTipoIvaList)
+    {
+        <ul>
+            <li>@index</li>
+        </ul>
+    }
+
+  
